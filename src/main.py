@@ -18,19 +18,6 @@ files_detected = 0
 
 console = Console()
 
-def saving_images(file_list , saving_dir):
-    """
-    saves file image from a given directory.
-    """
-    with Progress(transient=True) as progress:
-        task_1 = progress.add_task("[blue]Converting files...", total=len(file_list)) # total files are the selected files
-
-        for file in file_list:
-            img = Image.open(f"{target_dir}/{file}")
-            img.save(f"{saving_dir}/{file}.png")
-            progress.update(task_1, advance=1) # advance progress after 1 file is converted
-
-    console.print(f"Files saved at [i][blue][blink2]{saving_dir}[/]")
 
 def scan_dir(target_dir):
     """
@@ -51,6 +38,26 @@ def scan_dir(target_dir):
         else: # file is not jpg, then skip
             files_skipped+=1
             pass
+        
+    console.print(f"total skipped files: {files_skipped}")
+    console.print(f"total detected files: {files_detected}")
+    console.print(f"total selected files: {files_selected}")
+
+
+def saving_images(file_list , saving_dir):
+    """
+    saves file image from a given directory.
+    """
+    with Progress(transient=True) as progress:
+        task_1 = progress.add_task("[blue]Converting files...", total=len(file_list)) # total files are the selected files
+
+        for file in file_list:
+            img = Image.open(f"{target_dir}/{file}")
+            img.save(f"{saving_dir}/{file}.png")
+            progress.update(task_1, advance=1) # advance progress after 1 file is converted
+
+    console.print(f"Files saved at [i][blue][blink2]{saving_dir}[/]")
+
 
 
 def script_Runtime(target_dir):
@@ -58,10 +65,6 @@ def script_Runtime(target_dir):
     code block for execueting user choice of the directory selection
     prints analytics of the selected target .directory
     """
-    console.print(f"total skipped files: {files_skipped}")
-    console.print(f"total detected files: {files_detected}")
-    console.print(f"total selected files: {files_selected}")
-
 
     while True:
         userChoice = input("\nCreate a new directory? [y/n]: ")
@@ -79,15 +82,26 @@ def script_Runtime(target_dir):
         else: # if the response is not expected, continue loop
             console.print(f"[red]Warning: Not a valid response[/]\n[red]Valid response either y or n. Got [/]{userChoice}\n[yellow]Try again[/]")
 
-while True:
-    target_dir = input("Enter your directory here: ")
-    scan_dir(target_dir) # running this causes the files to be updated
 
+def main(target_dir):
+    try: 
+        scan_dir(target_dir) # running this causes the files to be updated
+    except FileNotFoundError: 
+        console.print("[red]Warning![/] No such file folder exists.")
+        return True
+    
     if len(selectedFiles) == 0: # if length of selected files is 0, continue loop.
         console.print("[red]Warning: No images found to convert to png[/]\n[yellow]Try Again.[/]")
 
     elif len(selectedFiles) > 0: # if length of selected files is not 0, break loop after saving
         console.print("[green]Images found")
         script_Runtime(target_dir)
-        break
-
+        return False
+    
+try:
+    while True:
+        target_dir = input("Enter your directory here: ")
+        if main(target_dir) == False: break # break loop if the function is completed. 
+except KeyboardInterrupt:
+    console.print("\n[blue]Program exiting now....[/]")
+    sys.exit()
