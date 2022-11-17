@@ -1,8 +1,7 @@
-# -*- coding: utf-8 -*-
-# @Author: Climax
-# @Date:   2021-11-03 19:59:47
-# @Last Modified by:   Climax
-# @Last Modified time: 2022-10-27 18:19:53
+"""
+note. this is a stable version of the code. Please run it continuously and once you understood how it works, make sure to have a backup
+"""
+
 
 import os
 import sys
@@ -23,7 +22,6 @@ def saving_images(file_list , saving_dir):
     """
     saves file image from a given directory.
     """
-
     with Progress(transient=True) as progress:
         task_1 = progress.add_task("[blue]Converting files...", total=len(file_list)) # total files are the selected files
 
@@ -37,7 +35,7 @@ def saving_images(file_list , saving_dir):
 def scan_dir(target_dir):
     """
     scan of the directory
-    NOTE. call it once. otherwise it will keep adding incrementing as times called.
+    Note. call it once. otherwise it will keep adding/incrementing as times called.
     """
     # update values
     global files_skipped
@@ -60,9 +58,10 @@ def script_Runtime(target_dir):
     code block for execueting user choice of the directory selection
     prints analytics of the selected target .directory
     """
-    console.print(f"total selected files: {files_selected}")
     console.print(f"total skipped files: {files_skipped}")
     console.print(f"total detected files: {files_detected}")
+    console.print(f"total selected files: {files_selected}")
+
 
     while True:
         userChoice = input("\nCreate a new directory? [y/n]: ")
@@ -92,6 +91,3 @@ while True:
         script_Runtime(target_dir)
         break
 
-"""
-note. this is a stable version of the code. Please run it continuously and once you understood how it works, make sure to have a backup
-"""
