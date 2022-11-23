@@ -10,6 +10,8 @@ Image-Converter is based on python and it is recently upgraded with the rich-cli
 
 Follow this steps to install the program over your computer.
 1. Install the Python programming language over your machine from the official website [here](https://www.python.org/).
+    _For those who are new to this, be sure to check __"Add to PATH"__ during Installation process._
+
     If you have successfully installed it, confirm it via your command prompt and typing this,
 
     ```
@@ -55,13 +57,27 @@ Run the program via your command prompt or any terminal you wish to use
 python src/main.py
 ```
 Note that the project will take a folder to work with. After inserting a correct folder, the program will convert the files of all selected files to PNG.
-This project is not completed. Expect modifications over the future.
+
+This project is completed. Currently the trials for modifications and improvements are going on.
 
 #### Note
-Please run the code over the most modern terminals to ensure the program to use its full potential.
+Please run the code over the most modern terminals to ensure the program to use its full potential like Windows Terminal.
 
 Also be aware that this project uses the Rich Lbrary which is CLI based. Changing the terminal sizes could bring unknown results. However, the script will work nevertheless.
 
+
+### FAQ
+
+1. Which format can this program script handle?
+> .jpg
+2. Which files would be changed?
+> All the files that are png in the directory where you inserted it.
+3. Would my file be duplicated if I run this program twice in the same directory?
+> No. If it was converted then it should stay that way.
+4. Would by previous files be removed?
+> No. But a feature would be ready for that if you wish to.
+5. I want to contribute to this project
+> The issue is open and you can message me on my Twitter acc.
 
 ### Credits
 
@@ -73,6 +89,8 @@ Built with :heart: by [@Black_2_white](https://twitter.com/@Black_2_white).
 1. ~~Create [readme.md](./readme.md)~~
 2. Update file structure
 3. ~~Update [readme.md](./readme.md) to include requirements~~
-4. Add on screen display
+4. ~~Add on screen display~~
 5. Add on table display
 6. research on logging Handler.
+7. rm feature
+8. confirmation feature (with preview)

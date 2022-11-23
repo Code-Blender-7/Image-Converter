@@ -129,8 +129,6 @@ def script_Runtime(target_dir):
         else: # if the response is not expected, continue loop
             console.print(f"[red]Warn: Not a valid response[/]\n[red]Valid response either y or n. Got [/]{userChoice}\n[yellow]Try again[/]")
 
-
-
 def main(target_dir):
     try: 
         scan_dir(target_dir) # running this causes the files to be updated
@@ -154,3 +152,6 @@ try:
 except KeyboardInterrupt:
     console.print("\n[blue]Program exiting now....[/]")
     sys.exit()
+    
+except Exception as err:
+    console.log("Error. Something Went wrong. ", err)
