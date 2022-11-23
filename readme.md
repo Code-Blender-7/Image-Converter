@@ -37,6 +37,15 @@ Follow this steps to install the program over your computer.
 
 After that, you are good to go!
 
+#### Info of Dependencies
+
+1. rich
+> CLI based library Used for creating beautiful syntax over the terminal.
+2. pil
+> Python Image Processing Library
+3. pyfiglet
+> ASCII art text generator library
+
 ### Usage
 
 Open the program folder after navigating to the root // the folder where the project is saved.
@@ -51,6 +60,8 @@ This project is not completed. Expect modifications over the future.
 #### Note
 Please run the code over the most modern terminals to ensure the program to use its full potential.
 
+Also be aware that this project uses the Rich Lbrary which is CLI based. Changing the terminal sizes could bring unknown results. However, the script will work nevertheless.
+
 
 ### Credits
 
@@ -64,3 +75,4 @@ Built with :heart: by [@Black_2_white](https://twitter.com/@Black_2_white).
 3. ~~Update [readme.md](./readme.md) to include requirements~~
 4. Add on screen display
 5. Add on table display
+6. research on logging Handler.
