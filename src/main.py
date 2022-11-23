@@ -7,9 +7,13 @@ import os
 import sys
 import PIL
 import pyfiglet
+import time 
+
 from PIL import Image
 from rich.console import Console
 from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn
+from rich.progress import track # seperate import bc it follows a diff. procedure
+
 from rich import print
 
 
@@ -50,6 +54,7 @@ def scan_dir(target_dir):
     global files_scanned
     global selectedFiles
 
+    
     for file in os.listdir(target_dir):
         files_scanned+=1
         if os.path.splitext(file)[1] == ".jpg":  # check if it's a jpg
@@ -59,9 +64,11 @@ def scan_dir(target_dir):
             files_skipped+=1
             pass
     
-    if len(selectedFiles) == 0: # if length of selected files is 0, continue loop.
+    if len(selectedFiles) == 0: 
+        # if selected files are less than 0, return print and reset value to default. IT WORKS SYNCHORNOUSLY
         console.print("[red]Warn: No images found to convert to png[/]\n[yellow]Try Again.[/]")
         console.print(f"Total scanned files: {files_scanned}")
+        files_scanned, files_converted, files_skipped = 0,0,0
         
     elif files_selected:
         console.print("[green]Images found")
@@ -75,21 +82,24 @@ def saving_images(selectedFiles , saving_dir):
     saves file image from a given directory.
     """
     try:
-        with console.screen(): # create alternate screen. See rich-doc
+        with console.screen():
             with progress:
                 task_1 = progress.add_task("Working..", total=len(selectedFiles)) # total files are the selected files
- 
+
                 for file in selectedFiles:
                     img = Image.open(f"{target_dir}/{file}")
                     img.save(f"{saving_dir}/{file}.png")
                     progress.update(task_1, advance=1) # advance progress after 1 file is converted
                     files_converted+=1
+                    print(file)    
                     
-        console.print(f"""
-                      Total files converted (JPG => PNG) : {files_converted}\nFiles saved at [i][blue][blink2]{saving_dir}[/]
-                      """)
+        console.print(f"""Total files converted (JPG => PNG) : {files_converted}\nFiles saved at [i][blue][blink2]{saving_dir}[/]""")
+
+        
     except KeyboardInterrupt:
-        console.print("[red]Warn[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+        console.print("\n[red]Warn[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+        console.print("Program exiting in 5 seconds....")
+        time.sleep(5)
 
 
 def script_Runtime(target_dir):
@@ -109,11 +119,12 @@ def script_Runtime(target_dir):
             saving_dir = input("Enter new directory for saving files: ")
             try:
                 os.makedirs(saving_dir)
+                saving_images(selectedFiles, saving_dir)
+                break
             except FileExistsError:
                 console.print("[red]Warn![/], This folder already exists")
                 continue
-            saving_images(selectedFiles, saving_dir)
-            break
+            
 
         else: # if the response is not expected, continue loop
             console.print(f"[red]Warn: Not a valid response[/]\n[red]Valid response either y or n. Got [/]{userChoice}\n[yellow]Try again[/]")
@@ -134,10 +145,12 @@ def main(target_dir):
     
     
 try:
-    text_art()
-    while True: ## main loop
-        target_dir = input("Enter your directory here: ")
-        if main(target_dir) == False: break # break loop if the function is completed. 
+    with console.screen(hide_cursor=False): # create alternate screen. See rich-doc
+        text_art()
+        while True: ## main loop
+            target_dir = input("Enter your directory here: ")
+            if main(target_dir) == False: break # break loop if the function is completed.
+        
 except KeyboardInterrupt:
     console.print("\n[blue]Program exiting now....[/]")
     sys.exit()
