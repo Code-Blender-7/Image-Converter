@@ -94,3 +94,4 @@ Built with :heart: by [@Black_2_white](https://twitter.com/@Black_2_white).
 6. research on logging Handler.
 7. rm feature
 8. confirmation feature (with preview)
+9. Corrupted-files exception handling.
