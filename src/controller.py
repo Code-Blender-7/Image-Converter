@@ -3,41 +3,36 @@ from view import render
 from view import text_art
 
 
-running = True
-modelControl = model()
-
-
+modelControl = model()       
 class Controller():
     def __init__(self):
-        self.userTargetDirectory = self.getTargetDirectory()
         self.renderer = render(modelControl)
         self.main_loop()
-    
 
-    def getTargetDirectory(self):
-        try:
-            userTargetDirectory = input("Directory: ")
-        except EOFError:
-            print("Warning, Please insert a valid directory")
-        return userTargetDirectory    
-            
-    
+
+
     def file_placement_choice(self):
-        choice = input("Create new Directory? [y/n]")
+        choice = input("Create new Directory? [y/n]: ")
         if (choice == "y"):
-            print("Positive")
+            self.render_savingfiles(input("Enter the directory you want to save: "))
         elif (choice == "n"): 
             print("Negative")
         else:
+            print("Invalid Command")
             return False
                 
 
+    def render_savingfiles(self, savingDir):
+        modelControl.saving_images(savingDir)
+
     def main_loop(self):
-        while running:
-            modelControl.scan_dir(self.userTargetDirectory)
+        while modelControl.running:
+            modelControl.updateDir()
             self.renderer.render_info()
             if modelControl.files_selected == 0: break
-            self.file_placement_choice() 
+            if self.file_placement_choice() == False: break 
+            break
+
    
 
 def init():
@@ -46,3 +41,5 @@ def init():
         
 if __name__ == "__main__":
     init()
+    
+    
