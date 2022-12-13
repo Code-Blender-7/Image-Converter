@@ -83,15 +83,3 @@ Also be aware that this project uses the Rich Lbrary which is CLI based. Changin
 
 Built with :heart: by [@Black_2_white](https://twitter.com/@Black_2_white).
 
-
-### To do
-
-1. ~~Create [readme.md](./readme.md)~~
-2. Update file structure
-3. ~~Update [readme.md](./readme.md) to include requirements~~
-4. ~~Add on screen display~~
-5. Add on table display
-6. research on logging Handler.
-7. rm feature
-8. confirmation feature (with preview)
-9. Corrupted-files exception handling.

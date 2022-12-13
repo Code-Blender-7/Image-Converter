@@ -12,11 +12,11 @@ class Controller():
 
 
     def file_placement_choice(self):
-        choice = input("Create new Directory? [y/n]: ")
+        choice = input("Save files in current directory? [y/n]: ")
         if (choice == "y"):
-            self.render_savingfiles(input("Enter the directory you want to save: "))
-        elif (choice == "n"): 
             print("Negative")
+        elif (choice == "n"): 
+            modelControl.customSavingDir()
         else:
             print("Invalid Command")
             return False
@@ -24,14 +24,19 @@ class Controller():
 
     def render_savingfiles(self, savingDir):
         modelControl.saving_images(savingDir)
+        
+    
+    
+        
+        
+        
 
     def main_loop(self):
         while modelControl.running:
-            modelControl.updateDir()
-            self.renderer.render_info()
+            if modelControl.updateDir() == False: continue
             if modelControl.files_selected == 0: break
+            self.renderer.render_info()
             if self.file_placement_choice() == False: break 
-            break
 
    
 
