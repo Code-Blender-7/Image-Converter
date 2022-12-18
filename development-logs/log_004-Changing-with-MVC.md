@@ -15,8 +15,12 @@ View is the rendering file for the project. That includes the display over the t
 
 
 There are a couple of things that I should specify. 
-1. The Controller can only have 1 while loop. Model and View cannot have while loops
+~~1. The Controller can only have 1 while loop. Model and View cannot have while loops~~
 2. Attribute to classes is not granted unless one or more functions needs them.
 3. Project is strictly MVC. Maintain the law.
 4. In case of failure, delete all evidence and revert to backup.
-5. The variables and others are declared and used in a desending order.
+
+View could have a place in the model as a empty attribute like model is expecting a class inside it but it doesn't know what it is.
+Therefore, the model can have its renderer inside the controller with the help of the view.py by having a new attribute over it.
+
+View will have the ready attributes and then we can call them inside the controller to the model as a argument!

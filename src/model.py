@@ -8,9 +8,9 @@ TargetFileType = ".jpg"
 
 
 class model():
-    running = True
+
     def __init__(self):
-        self.targetDir = ""
+        self.targetDir = None
         self.files_scanned = 0
         self.files_selected = 0
         self.files_skipped = 0
@@ -25,51 +25,43 @@ class model():
         """
         self.files_scanned, self.files_selected, self.files_skipped, self.selectedFiles = 0,0,0,[]
 
+            
+    def validate_dir(self, directory):
+        if os.path.isdir(directory): return True
+        else: raise Exception
+
 
     def getTargetDir(self, textMsg):
         """
-        get the target directory. mutates two variables
+        get the target directory.
+        try/except for special EOFError Handling.
+        Doesn't end until a correct directory is given.
         """
-        try:
-            self.targetDir = input(textMsg)
-        except Exception as err:
-            print(err)
-            
-        return model.running
-    
-    def validate_dir(self, directory):
-        if os.path.isdir(directory):
-            return True
-        else:
-            return False
+        while True:
+            try:
+                directoryChoice = input(textMsg)
+                if self.validate_dir(directoryChoice) == True: 
+                    self.targetDir = directoryChoice
+                break
+                
+            except Exception as err:
+                print("Directory invalid or False Input. Please Try again.")
+                continue
 
 
     def updateDir(self): 
         self.clear()
-        self.getTargetDir("Enter the directory you want to convert the files: ")
-        if self.validate_dir(self.targetDir) == False: 
-            print("Warning, directory not found")
-            return False
 
-        elif self.validate_dir(self.targetDir) == True:        
-            for file in os.listdir(self.targetDir):
-                self.files_scanned+=1
-                if os.path.splitext(file)[1] == TargetFileType:  # check if it's a jpg
-                    self.selectedFiles.append(file)
-                    self.files_selected+=1
-                else: # file is not jpg, then skip
-                    self.files_skipped+=1
-                    pass
-            
-        return model.running
+        for file in os.listdir(self.targetDir):
+            self.files_scanned+=1
+            if os.path.splitext(file)[1] == TargetFileType:  # check if it's a jpg
+                self.selectedFiles.append(file)
+                self.files_selected+=1
+            else: # file is not jpg, then skip
+                self.files_skipped+=1
+                pass
         
 
-
-    
-    # Create a function that has a default arg of none 
-    # it will be used to save the images based in the directory
-
-    
     def saving_images(self, saving_dir=None):
         """
         saves file image from a given directory.
