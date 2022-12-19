@@ -11,40 +11,34 @@ class Controller():
         self.runtime()
 
 
-
-    def file_placement_choice(self):
-        
-        choice = input("\nCreate new Directory to save files? [y]\nSave files in current Directory [n]\n: ")
-        if (choice == "y"): return
-        elif (choice == "n"): 
-            modelControl.customSavingDir()
-        else:
-            print("Invalid Command")
-            return False
-                
-
     def render_savingfiles(self, savingDir):
         modelControl.saving_images(savingDir)
     
-    
-    # def main_loop(self):
-    #     while modelControl.running | True:
-    #         if modelControl.updateDir() == False: continue
-    #         if modelControl.files_selected == 0: break
-    #         self.renderer.render_info()
-    #         if self.file_placement_choice() == False: continue 
-
 
     def controlModelDir(self):
-        modelControl.getTargetDir("Enter the directory you want to convert the files: ")
+        modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
         modelControl.updateDir()
         self.renderer.render_info() if modelControl.files_selected > 0 else self.renderer.render_NO_FILES()
 
+
+    def controlModelSavingImg(self):
+        if modelControl.file_placement_choice() == True: 
+            modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
+            
+        else: return
+    
     
     def runtime(self):
-        self.controlModelDir()
-        
+        while True:
+            try:
+                self.controlModelDir()
+                if self.controlModelSavingImg() == False: continue
+            except KeyboardInterrupt:
+                print("Program quit")    
 
+            finally: break
+        
+        
 def init():
     text_art()
     Controller()

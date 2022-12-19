@@ -2,6 +2,7 @@ from rich.console import Console
 from rich import print
 console = Console()
 
+
 import pyfiglet
 
 
@@ -16,9 +17,6 @@ class render():
         console.print(f"Total selected files: {self.classData.files_selected}")
         console.print(f"Total skipped files: {self.classData.files_skipped}")
 
-    def exceptionHandlings(self, exceptionType):
-        if exceptionType == "FileNotFoundError": console.print("Error found. This file doesn't exist")
-
 
     def render_NO_FILES(self):
         console.print("[red]Warn: No images found to convert to png[/]\n[yellow]Try Again.[/]")
@@ -26,6 +24,35 @@ class render():
         console.print(f"Found to convert: [red]{self.classData.files_selected}[/]\n")
 
 
+    def insert_SavingDirMsg(self):
+        return ("Insert 'new' folder location to save converted files : ")
+ 
+    
+    def error_DirMsg(self, userInput=""):
+        """
+        returns a captured rich error message. See Page 17 of the rich doc
+
+        Returns:
+            str: Error message
+        """
+        with console.capture() as capture:
+            console.print(f"[red]WARN:[/] Directory invalid or False Input.\n\nPlease Try again.")
+        return capture.get()
+
+
+    def error_DirNotExist(self):
+        """
+        if directory doesn't exist
+        """
+        with console.capture() as capture:
+            console.print("[red]WARN:[/] Directory does not exist or not found. Please Try again.")
+        return capture.get()
+
+
+    def enter_TargetDirMsg(self):
+        return ("Enter the directory you want to convert the files: ")
+ 
+ 
 
 def text_art():
     """

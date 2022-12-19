@@ -11,6 +11,7 @@ class model():
 
     def __init__(self):
         self.targetDir = None
+        self.savingDir = None
         self.files_scanned = 0
         self.files_selected = 0
         self.files_skipped = 0
@@ -28,27 +29,40 @@ class model():
             
     def validate_dir(self, directory):
         if os.path.isdir(directory): return True
-        else: raise Exception
+        else: return False
 
 
-    def getTargetDir(self, textMsg):
+    def getTargetDir(self, textMsg, errorMsg):
         """
         get the target directory.
+        updates the targetDir of the class
         try/except for special EOFError Handling.
-        Doesn't end until a correct directory is given.
+        
+        params 1: textMsg: str [directory location], 
+        params 2: errorMsg:str [error message]
         """
         while True:
             try:
                 directoryChoice = input(textMsg)
                 if self.validate_dir(directoryChoice) == True: 
                     self.targetDir = directoryChoice
-                break
-                
-            except Exception as err:
-                print("Directory invalid or False Input. Please Try again.")
+                    break
+                else: raise Exception
+            
+            except Exception:
+                print(errorMsg)
                 continue
-
-
+            
+    
+    def getSavingDir(self, textMsg, errorMsg):
+        try:
+            directoryChoice = input(textMsg)
+            self.saving_images = directoryChoice
+                
+        except EOFError:
+            print(errorMsg)
+            
+            
     def updateDir(self): 
         self.clear()
 
@@ -79,19 +93,35 @@ class model():
             print("\n[red]Warn[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
 
     
-    def createDir(self):
-        choice = input("Create new Directory? [y/n]")
+    def file_placement_choice(self):
+        choice = input("\nSave files in another directory? [y]\nSave files in current Directory [n]\n: ")
+        if (choice == "y"):
+            return True
+        elif (choice == "n"):
+            return          
+        else:
+            return False
+            
+    
+    # work on this #
+    def createDir(self, savingUserDir):
+        choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")
         if choice == "y":
-            self.getTargetDir("Enter the directory you wish to create: ")
+            os.mkdir(savingUserDir)
+        elif choice == "n":
             try:
-                os.mkdir(self.targetDir)
+                customDir = input("Enter the directory path you want to create: ")
+                if self.validate_dir(customDir) == True: os.mkdir(customDir) 
             except FileExistsError:
                 print("Warning, This file already exists")
-        elif choice == "n": return
+
     
     
-    def customSavingDir(self):
-        self.getTargetDir(f"Enter the directory to save the converted files: ")
-        if self.validate_dir(self.targetDir) == False: 
+    def customSavingDir(self, textMsg):
+        directoryChoice = input(textMsg)
+        if self.validate_dir(directoryChoice) == False: 
             print("Error, this directory doesn't exist")
-            self.createDir()
+            self.createDir(directoryChoice)
+        else:
+            print("Green")
+
