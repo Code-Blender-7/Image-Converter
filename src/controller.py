@@ -1,5 +1,5 @@
 from model import model
-from view import render
+from view import render, ExceptionHandler
 from view import text_art
 
 
@@ -18,25 +18,31 @@ class Controller():
     def controlModelDir(self):
         modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
         modelControl.updateDir()
-        self.renderer.render_info() if modelControl.files_selected > 0 else self.renderer.render_NO_FILES()
-
+        
+        if modelControl.files_selected > 0: self.renderer.render_info()
+        else:
+            self.renderer.render_NO_FILES()
+            return False
+        
 
     def controlModelSavingImg(self):
         choice = modelControl.file_placement_choice()
         if choice == "y": 
             modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
-            
+        elif choice == "n": print("SAVING_IMAGE HERE")
+         
         else:
             print(f"Error. {choice} is not a valid input")
-            modelControl.running = False
+            return False
     
     
     def runtime(self):
         while True:
             try:
-                self.controlModelDir()
+                if self.controlModelDir() == False: continue
                 if self.controlModelSavingImg() == False: continue
             except KeyboardInterrupt:
+                ExceptionHandler("KeyboardInterrupt", 101)
                 print("Program quit")
                 modelControl.running = True    
 

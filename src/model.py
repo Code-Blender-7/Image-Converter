@@ -31,7 +31,7 @@ class model():
             
     def validate_dir(self, directory):
         if os.path.isdir(directory): return True
-        else: return False
+        elif not os.path.isdir(directory): return False
 
 
     def getTargetDir(self, textMsg, errorMsg):
@@ -97,22 +97,39 @@ class model():
 
     
     def file_placement_choice(self):
-        choice = input("\nSave files in another directory? [y]\nSave files in current Directory [n]\n: ")
-        return choice
-    
-
+        if self.files_selected > 0:
+            
+            choice = input("\nSave files in another directory? [y]\nSave files in current Directory [n]\n: ")
+            return choice
+        else: return 
+        
+        
     def createDir(self, savingUserDir):
-        choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")
-        if choice == "y":
-            os.mkdir(savingUserDir)
-        elif choice == "n":
-            try:
-                customDir = input("Enter the directory path you want to create: ")
-                if self.validate_dir(customDir) == True: os.mkdir(customDir) 
-            except FileExistsError:
-                print("Warning, This file already exists")
-
+        while True:
+            choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")
     
+            if choice == "y":
+                os.mkdir(savingUserDir)
+                print("CUSTOM SAVING DIR HERE with PREDEFINIED DIRECTORY")
+            
+            elif choice == "n":
+            
+                try:
+                    customDir = input("Enter the directory path you want to create: ")
+                    if self.validate_dir(customDir) == True:
+                        os.mkdir(customDir) 
+                        print("CUSTOM SAVING DIR HERE with USER-DEFINIED DIRECTORY")
+
+                    
+                except FileExistsError:
+                    print("Warning, This file already exists")
+                    continue
+            
+                
+            break
+            
+
+        
     
     def customSavingDir(self, textMsg):
         directoryChoice = input(textMsg)
@@ -127,3 +144,6 @@ class model():
         elif self.targetDir == directoryChoice:
             print("Your new directory is the same from the folder you are converting")
             model.running = False
+        
+        else:
+            print("PRE-EXISTING DIRECTORY SAVING IMAGE HERE!")

@@ -53,6 +53,14 @@ class render():
         return ("Enter the directory you want to convert the files: ")
  
  
+class ExceptionHandler():
+    def __init__(self, exceptionType, code):
+        self.exceptionType = exceptionType
+        self.code = code
+        print(f"\nError logged: {self.exceptionType}, Code: {self.code}")
+    
+    
+
 
 def text_art():
     """
