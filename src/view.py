@@ -28,7 +28,7 @@ class render():
         return ("Insert 'new' folder location to save converted files : ")
  
     
-    def error_DirMsg(self, userInput=""):
+    def error_DirMsg(self):
         """
         returns a captured rich error message. See Page 17 of the rich doc
 

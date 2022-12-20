@@ -15,4 +15,5 @@
 
 ### MVC related
 
-1.  handle FileExistsError and to make sure that the user doesn't add new directory while creating directory as current target dir.
+1. ~~ handle FileExistsError and to make sure that the user doesn't add new directory while creating directory as current target dir.~~
+2. Create a new class called ExceptionHandling that is used for rendering different custom exceptions that the program receives. Also, use raise Exception for the job

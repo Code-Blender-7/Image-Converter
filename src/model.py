@@ -8,7 +8,9 @@ TargetFileType = ".jpg"
 
 
 class model():
-
+    
+    running = True
+    
     def __init__(self):
         self.targetDir = None
         self.savingDir = None
@@ -53,6 +55,7 @@ class model():
                 print(errorMsg)
                 continue
             
+            
     
     def getSavingDir(self, textMsg, errorMsg):
         try:
@@ -95,15 +98,9 @@ class model():
     
     def file_placement_choice(self):
         choice = input("\nSave files in another directory? [y]\nSave files in current Directory [n]\n: ")
-        if (choice == "y"):
-            return True
-        elif (choice == "n"):
-            return          
-        else:
-            return False
-            
+        return choice
     
-    # work on this #
+
     def createDir(self, savingUserDir):
         choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")
         if choice == "y":
@@ -119,9 +116,14 @@ class model():
     
     def customSavingDir(self, textMsg):
         directoryChoice = input(textMsg)
+        
+        # if directory doesn't exist, create new directory
         if self.validate_dir(directoryChoice) == False: 
             print("Error, this directory doesn't exist")
             self.createDir(directoryChoice)
-        else:
-            print("Green")
-
+            
+        # work on this #
+        # if user input is same from the directory of the converting folder, return to file placement choice
+        elif self.targetDir == directoryChoice:
+            print("Your new directory is the same from the folder you are converting")
+            model.running = False

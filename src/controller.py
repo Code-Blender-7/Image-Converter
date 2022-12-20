@@ -3,7 +3,7 @@ from view import render
 from view import text_art
 
 
-modelControl = model()       
+modelControl = model()
 class Controller():
     def __init__(self):
         self.renderer = render(modelControl)
@@ -22,10 +22,13 @@ class Controller():
 
 
     def controlModelSavingImg(self):
-        if modelControl.file_placement_choice() == True: 
+        choice = modelControl.file_placement_choice()
+        if choice == "y": 
             modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
             
-        else: return
+        else:
+            print(f"Error. {choice} is not a valid input")
+            modelControl.running = False
     
     
     def runtime(self):
@@ -34,9 +37,11 @@ class Controller():
                 self.controlModelDir()
                 if self.controlModelSavingImg() == False: continue
             except KeyboardInterrupt:
-                print("Program quit")    
+                print("Program quit")
+                modelControl.running = True    
 
-            finally: break
+            if modelControl.running == False: continue
+            break
         
         
 def init():
