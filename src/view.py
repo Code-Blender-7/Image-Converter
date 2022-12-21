@@ -53,14 +53,29 @@ class render():
         return ("Enter the directory you want to convert the files: ")
  
  
-class ExceptionHandler():
+
+class CustomException(Exception):
     def __init__(self, exceptionType, code):
         self.exceptionType = exceptionType
         self.code = code
-        print(f"\nError logged: {self.exceptionType}, Code: {self.code}")
-    
-    
+        self.exceptionHandler()
 
+    def exceptionHandler(self):
+        if self.exceptionType == KeyboardInterrupt and self.code == 101: self.keyBoardErrorMsg()
+        elif self.exceptionType == KeyboardInterrupt and self.code == None: self.keyBoardErrorMsg_IN_PROCESS()
+        else: print("ss")
+    
+    
+    def keyBoardErrorMsg(self):
+        console.print("\n[red]User Aborted Proces")
+    
+    def keyBoardErrorMsg_IN_PROCESS(self):
+        console.print("\n[red]User Aborted Proces while in operations")
+
+# try:
+#     raise(ExceptionHandler(exceptionType=KeyboardInterrupt, code=None))
+# except Exception:
+#     pass
 
 def text_art():
     """

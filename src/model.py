@@ -3,9 +3,10 @@ import sys
 import PIL
 
 from PIL import Image
+from helper import TargetFileType, SelectFileType
 
-TargetFileType = ".jpg"
-
+SelectFileType = ".jpg"
+TargetFileType = ".png"
 
 class model():
     
@@ -44,17 +45,30 @@ class model():
         params 2: errorMsg:str [error message]
         """
         while True:
-            try:
-                directoryChoice = input(textMsg)
-                if self.validate_dir(directoryChoice) == True: 
-                    self.targetDir = directoryChoice
-                    break
-                else: raise Exception
+            # try:
+            #     directoryChoice = input(textMsg)
+            #     if directoryChoice == "": raise Exception("Value empty")
+            #     elif self.validate_dir(directoryChoice) == True: 
+            #         self.targetDir = directoryChoice
+            #         break
+            #     else: raise Exception
             
-            except Exception:
+            # except Exception:
+            #     print(errorMsg)
+            #     continue
+            
+
+            directoryChoice = input(textMsg)
+            if self.validate_dir(directoryChoice) == True: 
+                self.targetDir = directoryChoice
+                break
+            else: 
                 print(errorMsg)
-                continue
-            
+                raise Exception
+        
+        
+
+        
             
     
     def getSavingDir(self, textMsg, errorMsg):
@@ -71,7 +85,7 @@ class model():
 
         for file in os.listdir(self.targetDir):
             self.files_scanned+=1
-            if os.path.splitext(file)[1] == TargetFileType:  # check if it's a jpg
+            if os.path.splitext(file)[1] == SelectFileType:  # check if it's a jpg
                 self.selectedFiles.append(file)
                 self.files_selected+=1
             else: # file is not jpg, then skip
@@ -87,7 +101,7 @@ class model():
         try:
             for file in self.selectedFiles:
                 img = Image.open(f"{self.targetDir}/{file}")
-                img.save(f"{saving_dir}/{file}.png")
+                img.save(f"{saving_dir}/{file}.{TargetFileType}")
                 self.files_converted+=1
                 print(file)    
                 

@@ -1,13 +1,12 @@
 from model import model
-from view import render, ExceptionHandler
+from view import render, CustomException
 from view import text_art
-
+import os
 
 modelControl = model()
 class Controller():
     def __init__(self):
         self.renderer = render(modelControl)
-        # self.main_loop()
         self.runtime()
 
 
@@ -41,11 +40,15 @@ class Controller():
             try:
                 if self.controlModelDir() == False: continue
                 if self.controlModelSavingImg() == False: continue
+                
+            except Exception as err:
+                if err != KeyboardInterrupt:
+                    continue
+                
             except KeyboardInterrupt:
-                ExceptionHandler("KeyboardInterrupt", 101)
-                print("Program quit")
-                modelControl.running = True    
-
+                CustomException(KeyboardInterrupt, 101)
+                modelControl.running = True
+                
             if modelControl.running == False: continue
             break
         

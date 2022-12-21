@@ -1,0 +1,2 @@
+SelectFileType = ".jpg"
+TargetFileType = ".png"
