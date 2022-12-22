@@ -1,6 +1,8 @@
 from model import model
 from view import render, CustomException
 from view import text_art
+from support import prog_description
+
 import os
 
 modelControl = model()
@@ -54,6 +56,7 @@ class Controller():
         
         
 def init():
+    prog_description()
     text_art()
     Controller()
         
