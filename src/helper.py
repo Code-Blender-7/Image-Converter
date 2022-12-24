@@ -1,2 +1,2 @@
-SelectFileType = ".jpg"
-TargetFileType = ".png"
+_selectFileType = ".jpg"
+_targetFileType = ".png"

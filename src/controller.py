@@ -3,9 +3,11 @@ from view import render, CustomException
 from view import text_art
 from support import prog_description
 
+from rich.prompt import Confirm
 import os
 
 modelControl = model()
+
 class Controller():
     def __init__(self):
         self.renderer = render(modelControl)
@@ -24,24 +26,22 @@ class Controller():
         else:
             self.renderer.render_NO_FILES()
             return False
-        
-
+    
+    
     def controlModelSavingImg(self):
-        choice = modelControl.file_placement_choice()
-        if choice == "y": 
+        choice = Confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
+        if choice: 
             modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
-        elif choice == "n": print("SAVING_IMAGE HERE")
-         
-        else:
-            print(f"Error. {choice} is not a valid input")
-            return False
+        else: modelControl.saving_images(modelControl.targetDir)
     
     
     def runtime(self):
         while True:
             try:
                 if self.controlModelDir() == False: continue
-                if self.controlModelSavingImg() == False: continue
+                
+                if modelControl.files_selected > 0:
+                    self.controlModelSavingImg()
                 
             except Exception as err:
                 if err != KeyboardInterrupt:
