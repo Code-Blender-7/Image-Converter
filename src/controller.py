@@ -1,6 +1,8 @@
 from model import model
+
 from view import render, CustomException
 from view import text_art
+
 from support import prog_description
 
 from rich.prompt import Confirm
@@ -19,14 +21,17 @@ class Controller():
     
 
     def controlModelDir(self):
-        modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
-        modelControl.updateDir()
+        while True:
+            modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
+            modelControl.updateDir()
+            
+            if modelControl.files_selected > 0: 
+                self.renderer.render_info()
+                break
+            else:
+                self.renderer.render_NO_FILES()
+                continue
         
-        if modelControl.files_selected > 0: self.renderer.render_info()
-        else:
-            self.renderer.render_NO_FILES()
-            return False
-    
     
     def controlModelSavingImg(self):
         """
@@ -43,13 +48,22 @@ class Controller():
         else: modelControl.currentSavingDir()
     
     
+    
+    def display_ConvertProcess(self):
+        modelControl.saving_images(modelControl.savingDir)
+        # self.renderer.renderConverting(modelControl.saving_images(modelControl.savingDir))
+
+        
     def runtime(self):
         while True:
             try:
-                if self.controlModelDir() == False: continue
+                self.controlModelDir()
                 
                 if modelControl.files_selected > 0:
                     self.controlModelSavingImg()
+                    self.display_ConvertProcess()
+                    
+                break
                 
             except Exception as err:
                 if err != KeyboardInterrupt:
@@ -57,9 +71,7 @@ class Controller():
                 
             except KeyboardInterrupt:
                 CustomException(KeyboardInterrupt, 101)
-                modelControl.running = True
                 
-            if modelControl.running == False: continue
             break
         
         

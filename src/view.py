@@ -1,5 +1,8 @@
 from rich.console import Console
 from rich import print
+from rich.progress import Progress
+from time import sleep
+
 console = Console()
 
 
@@ -51,7 +54,12 @@ class render():
 
     def enter_TargetDirMsg(self):
         return ("Enter the directory you want to convert the files: ")
- 
+    
+    
+    def renderConverting(self):
+        with console.screen():
+            print("running")
+            sleep(5)
  
 
 class CustomException(Exception):

@@ -7,8 +7,6 @@ from helper import _targetFileType, _selectFileType
 
 
 class model():
-
-    running = True
     
     def __init__(self):
         self.targetDir = None
@@ -89,6 +87,8 @@ class model():
         Summary:
         ==========
         Used for saving directory
+        Requires Target directory and Selected Files list
+        Externally needs type of files to convert from and to
         
         Args:
         ==========
@@ -106,7 +106,6 @@ class model():
             
         except KeyboardInterrupt:
             print("\n[red]Warn[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
-
     
     
     def createDir(self, savingUserDir):
@@ -115,11 +114,14 @@ class model():
     
             if choice == "y":
                 os.mkdir(savingUserDir)
-                self.saving_images(savingUserDir)
+                self.savingDir = savingUserDir
             
             elif choice == "n": 
-                model.running = False
                 return
+
+            else: 
+                print("Invalid Command")
+                continue
             
             break            
 
@@ -131,7 +133,7 @@ class model():
         used to save files in the current directory
         created to make sure all the savings operations are triggered inside the model
         """
-        self.saving_images(self.targetDir)
+        self.savingDir = self.targetDir
 
 
     def customSavingDir(self, textMsg):
@@ -161,6 +163,6 @@ class model():
             
             else:
             # if the saving dir exists on the machine, save the files there
-                self.saving_images(newSavingDir)
+                self.savingDir = newSavingDir
             
             break

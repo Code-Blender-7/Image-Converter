@@ -1,6 +1,5 @@
 import argparse
-from rich.console import Console 
-console = Console()
+
 
 parser = argparse.ArgumentParser(
     prog='PROG',

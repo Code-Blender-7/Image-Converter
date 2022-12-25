@@ -13,6 +13,7 @@
 10. ~~MVC Architecture Implementation~~
 11. support asset implementation
 12. code to exclude wrong file paths inputs if the user want to create a new directory
+13. Feature to warn that files like it already exists.
 
 ### MVC related
 
