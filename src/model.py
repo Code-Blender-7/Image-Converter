@@ -23,9 +23,13 @@ class model():
             
     def clear(self):
         """
-        Reset all the values of the object attributes
+        Summary:
+        ==========
+        Resetting the values of the class variables 
+           
         """
         self.files_scanned, self.files_selected, self.files_skipped, self.selectedFiles = 0,0,0,[]
+        self.savingDir = None
 
             
     def validate_dir(self, directory):
@@ -80,7 +84,7 @@ class model():
                 pass
         
 
-    def saving_images(self, saving_dir=None):
+    def saving_images(self, saving_dir):
         """
         Summary:
         ==========
@@ -88,7 +92,7 @@ class model():
         
         Args:
         ==========
-            saving_dir (str/filePath, optional): Target File location. Defaults to None.
+            saving_dir (str/filePath): Saving folder location
         
         """
         try:
@@ -113,35 +117,50 @@ class model():
                 os.mkdir(savingUserDir)
                 self.saving_images(savingUserDir)
             
-            elif choice == "n":
+            elif choice == "n": 
+                model.running = False
+                return
             
-                try:
-                    customDir = input("Enter the directory path you want to create: ")
-                    if self.validate_dir(customDir) == True:
-                        os.mkdir(customDir) 
-                        self.saving_images(customDir)
-
-                    
-                except FileExistsError:
-                    print("Warning, This file already exists")
-                    continue
-
             break            
+
+    
+    def currentSavingDir(self):
+        """
+        Summary:
+        ==========
+        used to save files in the current directory
+        created to make sure all the savings operations are triggered inside the model
+        """
+        self.saving_images(self.targetDir)
 
 
     def customSavingDir(self, textMsg):
-        directoryChoice = input(textMsg)
+        """
+        Summary:
+        ==========
+        used to save files in another folder if the user doesn't chose to save files in current directory
         
-        # if directory doesn't exist, create new directory
-        if self.validate_dir(directoryChoice) == False: 
-            print("Error, this directory doesn't exist")
-            self.createDir(directoryChoice)
+        Args:
+        ==========
+            textMsg (str): Placeholder text for Input class. Gets from Controller 
+        
+        """
+        while True:
+            newSavingDir = input(textMsg)
             
-        # work on this #
-        # if user input is same from the directory of the converting folder, return to file placement choice
-        elif self.targetDir == directoryChoice:
-            print("Your new directory is the same from the folder you are converting")
-            model.running = False
-        
-        else:
-            print("PRE-EXISTING DIRECTORY SAVING IMAGE HERE!")
+            # if directory doesn't exist, create new directory
+            if self.validate_dir(newSavingDir) == False: 
+                print("Error, this directory doesn't exist")
+                self.createDir(newSavingDir)
+                
+                
+            # if user input is same from the directory of the converting folder, return to file placement choice
+            elif self.targetDir == newSavingDir:
+                print("Your new directory is the same from the folder you are converting")
+                continue
+            
+            else:
+            # if the saving dir exists on the machine, save the files there
+                self.saving_images(newSavingDir)
+            
+            break

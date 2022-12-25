@@ -63,7 +63,7 @@ class CustomException(Exception):
     def exceptionHandler(self):
         if self.exceptionType == KeyboardInterrupt and self.code == 101: self.keyBoardErrorMsg()
         elif self.exceptionType == KeyboardInterrupt and self.code == None: self.keyBoardErrorMsg_IN_PROCESS()
-        else: print("ss")
+        else: print("Expection Message of this catagory doesn't exist")
     
     
     def keyBoardErrorMsg(self):
@@ -72,10 +72,6 @@ class CustomException(Exception):
     def keyBoardErrorMsg_IN_PROCESS(self):
         console.print("\n[red]User Aborted Proces while in operations")
 
-# try:
-#     raise(ExceptionHandler(exceptionType=KeyboardInterrupt, code=None))
-# except Exception:
-#     pass
 
 def text_art():
     """

@@ -29,10 +29,18 @@ class Controller():
     
     
     def controlModelSavingImg(self):
+        """
+        Summary:
+        ==========
+        Confirmation of the File Placement. Choice based.
+        If Choice = "y": content to be saved inside another folder
+        if Choice = "n": content to be saved inside the folder where the converting takes place
+        
+        """
         choice = Confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
         if choice: 
             modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
-        else: modelControl.saving_images(modelControl.targetDir)
+        else: modelControl.currentSavingDir()
     
     
     def runtime(self):
@@ -56,7 +64,7 @@ class Controller():
         
         
 def init():
-    prog_description()
+    # prog_description()
     text_art()
     Controller()
         
