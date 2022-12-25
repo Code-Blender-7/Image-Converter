@@ -2,13 +2,17 @@ from model import model
 
 from view import render, CustomException
 from view import text_art
+from view import console
 
 from support import prog_description
 
 from rich.prompt import Confirm
+from rich.console import Console
+
 import os
 
 modelControl = model()
+
 
 class Controller():
     def __init__(self):
@@ -42,42 +46,60 @@ class Controller():
         if Choice = "n": content to be saved inside the folder where the converting takes place
         
         """
-        choice = Confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
-        if choice: 
-            modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
-        else: modelControl.currentSavingDir()
-    
-    
-    
+        while True:
+            try:
+                choice = Confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
+                if choice: # choice = "y"
+                    modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
+                else: # choice = "n"
+                    modelControl.currentSavingDir()
+                
+            except EOFError: 
+                print("Not allowed")
+                continue
+            
+        
+    # work on this # 
     def display_ConvertProcess(self):
-        modelControl.saving_images(modelControl.savingDir)
-        # self.renderer.renderConverting(modelControl.saving_images(modelControl.savingDir))
+        # try:
+        #     with console.screen():
+        #         modelControl.saving_images()
+        # except KeyboardInterrupt: 
+        #     raise CustomException(KeyboardInterrupt, 105)
+
+        with console.screen():
+            modelControl.saving_images()
+
 
         
     def runtime(self):
         while True:
             try:
-                self.controlModelDir()
-                
-                if modelControl.files_selected > 0:
-                    self.controlModelSavingImg()
-                    self.display_ConvertProcess()
+                with console.screen(hide_cursor=False):
+                    text_art()
+                    self.controlModelDir()
                     
-                break
-                
-            except Exception as err:
-                if err != KeyboardInterrupt:
-                    continue
+                    if modelControl.files_selected > 0:
+                        if self.controlModelSavingImg() == False: continue
+                        self.display_ConvertProcess()
+                        
                 
             except KeyboardInterrupt:
                 CustomException(KeyboardInterrupt, 101)
+            
+            except EOFError:
+                print("False Input")
+                continue
+            # except Exception as err:
+            #     if err.args == 105:
+            #         print("Kindle")
                 
             break
-        
-        
+
+    
 def init():
     # prog_description()
-    text_art()
+    
     Controller()
         
 if __name__ == "__main__":

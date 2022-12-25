@@ -56,22 +56,31 @@ class render():
         return ("Enter the directory you want to convert the files: ")
     
     
-    def renderConverting(self):
-        with console.screen():
-            print("running")
-            sleep(5)
- 
+    def renderingConvert(self, func):
+        
+        def convert():
+            with console.screen() as screen:
+                func()
+        return convert
+
+
 
 class CustomException(Exception):
     def __init__(self, exceptionType, code):
         self.exceptionType = exceptionType
         self.code = code
+        print("Received: ", self.exceptionType, self.code)
         self.exceptionHandler()
+    
+
 
     def exceptionHandler(self):
         if self.exceptionType == KeyboardInterrupt and self.code == 101: self.keyBoardErrorMsg()
         elif self.exceptionType == KeyboardInterrupt and self.code == None: self.keyBoardErrorMsg_IN_PROCESS()
-        else: print("Expection Message of this catagory doesn't exist")
+        elif self.exceptionType == KeyboardInterrupt and self.code == 105: self.abortWhileConvert()
+        else: 
+            print("Expection Message of this catagory doesn't exist")
+            print(self.exceptionType)
     
     
     def keyBoardErrorMsg(self):
@@ -79,6 +88,10 @@ class CustomException(Exception):
     
     def keyBoardErrorMsg_IN_PROCESS(self):
         console.print("\n[red]User Aborted Proces while in operations")
+    
+    def abortWhileConvert(self):
+        console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+        
 
 
 def text_art():
@@ -89,3 +102,5 @@ def text_art():
     console.print(f"[blink]{text}[/]")
     
     print("Made by [blue][link=https://www.twitter.com/Black_2_white]@Black_2_white[/link][/]!")
+    
+        

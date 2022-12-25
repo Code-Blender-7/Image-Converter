@@ -59,14 +59,17 @@ class model():
         params 2: errorMsg:str [error message]
         """
         while True:
-            
-            directoryChoice = input(textMsg)
-            if self.validate_dir(directoryChoice) == True: 
-                self.targetDir = directoryChoice
-                break
-            else: 
+            try: 
+                directoryChoice = input(textMsg)
+                if self.validate_dir(directoryChoice) == True: 
+                    self.targetDir = directoryChoice
+                    break
+                else: 
+                    print(errorMsg)
+                    raise Exception
+            except EOFError:
                 print(errorMsg)
-                raise Exception        
+                continue
             
             
     def updateDir(self): 
@@ -82,7 +85,7 @@ class model():
                 pass
         
 
-    def saving_images(self, saving_dir):
+    def saving_images(self):
         """
         Summary:
         ==========
@@ -98,14 +101,16 @@ class model():
         try:
             for file in self.selectedFiles:
                 img = Image.open(f"{self.targetDir}/{file}")
-                img.save(f"{saving_dir}/{file}.{_targetFileType}")
+                img.save(f"{self.savingDir}/{file}.{_targetFileType}")
                 self.files_converted+=1
                 print(file)    
                 
-            print(f"Total files converted (JPG => PNG) : {self.files_converted}\nFiles saved at [i][blue][blink2]{saving_dir}[/]")
-            
+            print(f"Total files converted (JPG => PNG) : {self.files_converted}\nFiles saved at [i][blue][blink2]{self.savingDir}[/]")
+
+        
         except KeyboardInterrupt:
-            print("\n[red]Warn[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+            raise Exception(105)
+
     
     
     def createDir(self, savingUserDir):
@@ -125,7 +130,7 @@ class model():
             
             break            
 
-    
+
     def currentSavingDir(self):
         """
         Summary:
