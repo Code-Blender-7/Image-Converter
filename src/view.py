@@ -53,23 +53,15 @@ class render():
 
 
     def enter_TargetDirMsg(self):
-        return ("Enter the directory you want to convert the files: ")
+        return ("\nEnter the directory you want to convert the files: ")
     
-    
-    def renderingConvert(self, func):
-        
-        def convert():
-            with console.screen() as screen:
-                func()
-        return convert
 
 
 
 class CustomException(Exception):
-    def __init__(self, exceptionType, code):
+    def __init__(self, exceptionType, code=None):
         self.exceptionType = exceptionType
         self.code = code
-        print("Received: ", self.exceptionType, self.code)
         self.exceptionHandler()
     
 
@@ -78,6 +70,7 @@ class CustomException(Exception):
         if self.exceptionType == KeyboardInterrupt and self.code == 101: self.keyBoardErrorMsg()
         elif self.exceptionType == KeyboardInterrupt and self.code == None: self.keyBoardErrorMsg_IN_PROCESS()
         elif self.exceptionType == KeyboardInterrupt and self.code == 105: self.abortWhileConvert()
+        elif self.exceptionType == EOFError: self.EOFErrorHandler()
         else: 
             print("Expection Message of this catagory doesn't exist")
             print(self.exceptionType)
@@ -91,6 +84,9 @@ class CustomException(Exception):
     
     def abortWhileConvert(self):
         console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+    
+    def EOFErrorHandler(self):
+        console.print("\n[on red][blink2]OOPS[/][/]. The given input was not valid. Please try again.")
         
 
 

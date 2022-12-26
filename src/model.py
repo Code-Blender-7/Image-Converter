@@ -59,18 +59,16 @@ class model():
         params 2: errorMsg:str [error message]
         """
         while True:
-            try: 
-                directoryChoice = input(textMsg)
-                if self.validate_dir(directoryChoice) == True: 
-                    self.targetDir = directoryChoice
-                    break
-                else: 
-                    print(errorMsg)
-                    raise Exception
-            except EOFError:
+ 
+            directoryChoice = input(textMsg)
+            if self.validate_dir(directoryChoice) == True: 
+                self.targetDir = directoryChoice
+                break
+            else: 
                 print(errorMsg)
                 continue
-            
+
+
             
     def updateDir(self): 
         self.clear()
@@ -98,20 +96,17 @@ class model():
             saving_dir (str/filePath): Saving folder location
         
         """
-        try:
-            for file in self.selectedFiles:
-                img = Image.open(f"{self.targetDir}/{file}")
-                img.save(f"{self.savingDir}/{file}.{_targetFileType}")
-                self.files_converted+=1
-                print(file)    
-                
-            print(f"Total files converted (JPG => PNG) : {self.files_converted}\nFiles saved at [i][blue][blink2]{self.savingDir}[/]")
 
-        
-        except KeyboardInterrupt:
-            raise Exception(105)
+        for file in self.selectedFiles:
+            img = Image.open(f"{self.targetDir}/{file}")
+            img.save(f"{self.savingDir}/{file}.{_targetFileType}")
+            self.files_converted+=1
+            print(file)    
+            
+        print(f"Total files converted (JPG => PNG) : {self.files_converted}\nFiles saved at [i][blue][blink2]{self.savingDir}[/]")
 
-    
+
+
     
     def createDir(self, savingUserDir):
         while True:

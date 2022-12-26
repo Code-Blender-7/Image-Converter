@@ -26,16 +26,22 @@ class Controller():
 
     def controlModelDir(self):
         while True:
-            modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
-            modelControl.updateDir()
-            
-            if modelControl.files_selected > 0: 
-                self.renderer.render_info()
-                break
-            else:
-                self.renderer.render_NO_FILES()
+            try:            
+                modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
+                modelControl.updateDir()
+                
+                if modelControl.files_selected > 0: 
+                    self.renderer.render_info()
+                    break
+                
+                elif modelControl.files_selected == 0:
+                    self.renderer.render_NO_FILES()
+                    continue
+                
+            except EOFError:
+                CustomException(EOFError)
                 continue
-        
+    
     
     def controlModelSavingImg(self):
         """
@@ -55,27 +61,25 @@ class Controller():
                     modelControl.currentSavingDir()
                 
             except EOFError: 
-                print("Not allowed")
+                CustomException(EOFError)
                 continue
+            
+            break
             
         
     # work on this # 
     def display_ConvertProcess(self):
-        # try:
-        #     with console.screen():
-        #         modelControl.saving_images()
-        # except KeyboardInterrupt: 
-        #     raise CustomException(KeyboardInterrupt, 105)
-
-        with console.screen():
-            modelControl.saving_images()
-
+        try:
+            with console.screen():
+                modelControl.saving_images()
+        except KeyboardInterrupt: 
+            raise CustomException(KeyboardInterrupt, 105)
 
         
     def runtime(self):
         while True:
             try:
-                with console.screen(hide_cursor=False):
+                with console.screen():
                     text_art()
                     self.controlModelDir()
                     
@@ -87,13 +91,9 @@ class Controller():
             except KeyboardInterrupt:
                 CustomException(KeyboardInterrupt, 101)
             
-            except EOFError:
-                print("False Input")
-                continue
-            # except Exception as err:
-            #     if err.args == 105:
-            #         print("Kindle")
-                
+            except EOFError as error:
+                sys.exit()
+
             break
 
     
