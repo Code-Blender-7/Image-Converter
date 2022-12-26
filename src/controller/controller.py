@@ -1,15 +1,18 @@
-from model import model
 
-from view import render, CustomException
-from view import text_art
-from view import console
-from view import confirm
 
+import sys 
+import os 
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+
+
+from model.model import model
+from view.view import render, CustomException
+from view.view import text_art
+from view.view import console, confirm
 from support import prog_description
-
-
-
-import os
 
 modelControl = model()
 
