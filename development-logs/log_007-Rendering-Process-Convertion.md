@@ -15,3 +15,4 @@ I tried methods but it didn't work. Calling the alternate screen from the view t
 As for now, all the alternate screen takes place inside the controller. The instance of the console from the rich library is supported by the view variable of console. So I just imported it without importing rich directly.
 
 As the alternate screen is created for the converting process. It'll be nice if the whole project had been the same.
+There are issues regarding it like printing inside the loop of the alternate screen stays in there. Force_terminal doesn't work. It is solved by calling the prints at the end of the alternate screen loop.

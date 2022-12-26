@@ -2,8 +2,11 @@ from rich.console import Console
 from rich import print
 from rich.progress import Progress
 from time import sleep
+from rich.prompt import Confirm
+
 
 console = Console()
+confirm = Confirm()
 
 
 import pyfiglet
@@ -55,11 +58,16 @@ class render():
     def enter_TargetDirMsg(self):
         return ("\nEnter the directory you want to convert the files: ")
     
+    
+    def convertCompleteResults(self):
+        console.print(f"[on green]Converting Completed![/]\nTotal Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}\n")
+    
+    
 
-
-
-class CustomException(Exception):
-    def __init__(self, exceptionType, code=None):
+class CustomException(Exception, render):
+    def __init__(self, exceptionType, code=None, classData=None):
+        
+        self.classData = classData
         self.exceptionType = exceptionType
         self.code = code
         self.exceptionHandler()
@@ -79,12 +87,19 @@ class CustomException(Exception):
     def keyBoardErrorMsg(self):
         console.print("\n[red]User Aborted Proces")
     
+    
     def keyBoardErrorMsg_IN_PROCESS(self):
         console.print("\n[red]User Aborted Proces while in operations")
     
+
+    
     def abortWhileConvert(self):
         console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
+        
+        console.print(f"""\nTotal files converted: {self.classData.files_converted}\nSaving Directory Location: {self.classData.savingDir}\n
+        """)
     
+        
     def EOFErrorHandler(self):
         console.print("\n[on red][blink2]OOPS[/][/]. The given input was not valid. Please try again.")
         

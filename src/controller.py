@@ -3,11 +3,11 @@ from model import model
 from view import render, CustomException
 from view import text_art
 from view import console
+from view import confirm
 
 from support import prog_description
 
-from rich.prompt import Confirm
-from rich.console import Console
+
 
 import os
 
@@ -54,7 +54,7 @@ class Controller():
         """
         while True:
             try:
-                choice = Confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
+                choice = confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
                 if choice: # choice = "y"
                     modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
                 else: # choice = "n"
@@ -69,14 +69,35 @@ class Controller():
         
     # work on this # 
     def display_ConvertProcess(self):
+        """
+        Summary:
+        ==========
+        Function to handle the alternate screen for the converting process and to handle the display of the converting progress itself
+        
+        
+        Raises:
+        ==========
+            CustomException: Custom Exception Handling Control
+        
+        """
         try:
             with console.screen():
+                
                 modelControl.saving_images()
+                
+                
         except KeyboardInterrupt: 
-            raise CustomException(KeyboardInterrupt, 105)
+            CustomException(KeyboardInterrupt, 105, modelControl) # pass model data to customException for other features
 
         
     def runtime(self):
+        """
+        Summary:
+        ==========
+        Main While Loop for the project. Calls function based on their actions serially.
+        NOTE. Don't change the while loop unless you want to add a new feature to the code.
+        
+        """
         while True:
             try:
                 with console.screen():
@@ -86,14 +107,13 @@ class Controller():
                     if modelControl.files_selected > 0:
                         if self.controlModelSavingImg() == False: continue
                         self.display_ConvertProcess()
+                
+                self.renderer.convertCompleteResults()
                         
                 
             except KeyboardInterrupt:
                 CustomException(KeyboardInterrupt, 101)
-            
-            except EOFError as error:
-                sys.exit()
-
+                
             break
 
     

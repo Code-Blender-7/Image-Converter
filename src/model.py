@@ -96,18 +96,14 @@ class model():
             saving_dir (str/filePath): Saving folder location
         
         """
-
+        print("Converting files now...")
         for file in self.selectedFiles:
             img = Image.open(f"{self.targetDir}/{file}")
             img.save(f"{self.savingDir}/{file}.{_targetFileType}")
             self.files_converted+=1
             print(file)    
-            
-        print(f"Total files converted (JPG => PNG) : {self.files_converted}\nFiles saved at [i][blue][blink2]{self.savingDir}[/]")
-
-
-
-    
+        
+  
     def createDir(self, savingUserDir):
         while True:
             choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")

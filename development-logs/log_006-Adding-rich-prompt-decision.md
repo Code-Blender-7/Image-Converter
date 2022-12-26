@@ -7,4 +7,4 @@ There had been a choice of conflict either to change all the inputs into rich.pr
 
 #### UPDATE
 
-The rich.prompt will not be in the model nor view. The Confirm is instead to be used on the controller.
+The rich.prompt will not be in the model nor view. The Confirm is instead to be used on the controller. It will inherit the class from view onto a variable. After that, the variable from view will be imported to the Controller.
