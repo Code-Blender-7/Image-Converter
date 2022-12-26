@@ -1,14 +1,21 @@
 from rich.console import Console
 from rich.progress import Progress
 from rich.prompt import Confirm
-import pyfiglet
+from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn
 
+import pyfiglet
 
 
 console = Console()
 confirm = Confirm()
 
 
+progress = Progress(
+    SpinnerColumn(),
+    *Progress.get_default_columns(), # get default settings
+    "Elapsed:", TimeElapsedColumn(), # this is a slacked display. Read Docs of Rich before making changes.
+    transient=True # clear progress bar + others after completion/end
+    )
 
 
 class render():

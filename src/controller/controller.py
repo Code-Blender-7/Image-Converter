@@ -10,7 +10,8 @@ sys.path.append(parent)
 
 from model.model import model
 from view.view import render, CustomException
-from view.view import console, confirm
+from view.view import console, confirm, progress
+
 from parseSupport import prog_description
 
 modelControl = model()
@@ -84,11 +85,9 @@ class Controller():
         """
         try:
             with console.screen():
-                for file in modelControl.selectedFiles:
-                    modelControl.saving_images(file)
-                    print(file)
+                modelControl.saving_images(progress)
                 
-                
+   
         except KeyboardInterrupt: 
             CustomException(KeyboardInterrupt, 105)
 

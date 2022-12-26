@@ -83,7 +83,7 @@ class model():
                 pass
         
 
-    def saving_images(self, file):
+    def saving_images(self, progress):
         """
         Summary:
         ==========
@@ -97,16 +97,17 @@ class model():
         
         """
         
-        # for file in self.selectedFiles:
-        #     img = Image.open(f"{self.targetDir}/{file}")
-        #     img.save(f"{self.savingDir}/{file}.{_targetFileType}")
-        #     self.files_converted+=1
-        #     print(file)    
-        
-        img = Image.open(f"{self.targetDir}/{file}")
-        img.save(f"{self.savingDir}/{file}.{_targetFileType}")
-        self.files_converted+=1   
-        
+        with progress:
+            task_1 = progress.add_task("Working..", total=len(self.selectedFiles)) # total files are the selected files
+
+            for file in self.selectedFiles:
+                img = Image.open(f"{self.targetDir}/{file}")
+                img.save(f"{self.savingDir}/{file}.png")
+                progress.update(task_1, advance=1) # advance progress after 1 file is converted
+                self.files_converted+=1
+                print(file)
+  
+  
   
     def createDir(self, savingUserDir):
         while True:
