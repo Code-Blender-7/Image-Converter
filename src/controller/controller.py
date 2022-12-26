@@ -10,9 +10,8 @@ sys.path.append(parent)
 
 from model.model import model
 from view.view import render, CustomException
-from view.view import text_art
 from view.view import console, confirm
-from support import prog_description
+from parseSupport import prog_description
 
 modelControl = model()
 
@@ -85,12 +84,13 @@ class Controller():
         """
         try:
             with console.screen():
-                
-                modelControl.saving_images()
+                for file in modelControl.selectedFiles:
+                    modelControl.saving_images(file)
+                    print(file)
                 
                 
         except KeyboardInterrupt: 
-            CustomException(KeyboardInterrupt, 105, modelControl) # pass model data to customException for other features
+            CustomException(KeyboardInterrupt, 105)
 
         
     def runtime(self):
@@ -103,8 +103,8 @@ class Controller():
         """
         while True:
             try:
-                with console.screen():
-                    text_art()
+                with console.screen(hide_cursor=False):
+                    self.renderer.text_art()
                     self.controlModelDir()
                     
                     if modelControl.files_selected > 0:
@@ -121,8 +121,7 @@ class Controller():
 
     
 def init():
-    # prog_description()
-    
+    prog_description()
     Controller()
         
 if __name__ == "__main__":

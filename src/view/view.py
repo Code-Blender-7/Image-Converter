@@ -1,15 +1,13 @@
 from rich.console import Console
-from rich import print
 from rich.progress import Progress
-from time import sleep
 from rich.prompt import Confirm
+import pyfiglet
+
 
 
 console = Console()
 confirm = Confirm()
 
-
-import pyfiglet
 
 
 
@@ -42,7 +40,7 @@ class render():
             str: Error message
         """
         with console.capture() as capture:
-            console.print(f"[red]WARN:[/] Directory invalid or False Input.\n\nPlease Try again.")
+            console.print(f"[red]WARN:[/] Directory invalid or False Input.\nPlease Try again.")
         return capture.get()
 
 
@@ -51,7 +49,7 @@ class render():
         if directory doesn't exist
         """
         with console.capture() as capture:
-            console.print("[red]WARN:[/] Directory does not exist or not found. Please Try again.")
+            console.print("[red]WARN:[/] Directory does not exist or not found. \nPlease Try again.")
         return capture.get()
 
 
@@ -60,14 +58,22 @@ class render():
     
     
     def convertCompleteResults(self):
-        console.print(f"[on green]Converting Completed![/]\nTotal Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}\n")
-    
+        console.print(f"Total Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}\n")
     
 
-class CustomException(Exception, render):
-    def __init__(self, exceptionType, code=None, classData=None):
+    def text_art(self):
+        """
+        Welcoming text artwork in ASCII. Requires pyfiglet
+        """
+        text = pyfiglet.figlet_format("Image Converter", font = "slant")
+        console.print(f"[blink]{text}[/]")
+
+        console.print("Made by [blue][link=https://www.twitter.com/Black_2_white]@Black_2_white[/link][/]!")
         
-        self.classData = classData
+
+class CustomException(Exception):
+    
+    def __init__(self, exceptionType, code=None):
         self.exceptionType = exceptionType
         self.code = code
         self.exceptionHandler()
@@ -76,42 +82,21 @@ class CustomException(Exception, render):
 
     def exceptionHandler(self):
         if self.exceptionType == KeyboardInterrupt and self.code == 101: self.keyBoardErrorMsg()
-        elif self.exceptionType == KeyboardInterrupt and self.code == None: self.keyBoardErrorMsg_IN_PROCESS()
         elif self.exceptionType == KeyboardInterrupt and self.code == 105: self.abortWhileConvert()
         elif self.exceptionType == EOFError: self.EOFErrorHandler()
         else: 
-            print("Expection Message of this catagory doesn't exist")
-            print(self.exceptionType)
+            console.print("Expection Message of this catagory doesn't exist")
+            console.print(self.exceptionType)
     
     
     def keyBoardErrorMsg(self):
         console.print("\n[red]User Aborted Proces")
     
     
-    def keyBoardErrorMsg_IN_PROCESS(self):
-        console.print("\n[red]User Aborted Proces while in operations")
-    
-
-    
     def abortWhileConvert(self):
-        console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.")
-        
-        console.print(f"""\nTotal files converted: {self.classData.files_converted}\nSaving Directory Location: {self.classData.savingDir}\n
-        """)
-    
+        console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.\n")
+
         
     def EOFErrorHandler(self):
         console.print("\n[on red][blink2]OOPS[/][/]. The given input was not valid. Please try again.")
-        
-
-
-def text_art():
-    """
-    Welcoming text artwork in ASCII. Requires pyfiglet
-    """
-    text = pyfiglet.figlet_format("Image Converter", font = "slant")
-    console.print(f"[blink]{text}[/]")
-    
-    print("Made by [blue][link=https://www.twitter.com/Black_2_white]@Black_2_white[/link][/]!")
-    
         

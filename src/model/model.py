@@ -83,7 +83,7 @@ class model():
                 pass
         
 
-    def saving_images(self):
+    def saving_images(self, file):
         """
         Summary:
         ==========
@@ -96,12 +96,16 @@ class model():
             saving_dir (str/filePath): Saving folder location
         
         """
-        print("Converting files now...")
-        for file in self.selectedFiles:
-            img = Image.open(f"{self.targetDir}/{file}")
-            img.save(f"{self.savingDir}/{file}.{_targetFileType}")
-            self.files_converted+=1
-            print(file)    
+        
+        # for file in self.selectedFiles:
+        #     img = Image.open(f"{self.targetDir}/{file}")
+        #     img.save(f"{self.savingDir}/{file}.{_targetFileType}")
+        #     self.files_converted+=1
+        #     print(file)    
+        
+        img = Image.open(f"{self.targetDir}/{file}")
+        img.save(f"{self.savingDir}/{file}.{_targetFileType}")
+        self.files_converted+=1   
         
   
     def createDir(self, savingUserDir):
