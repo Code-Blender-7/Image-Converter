@@ -44,7 +44,7 @@ class render():
         if directory doesn't exist
         """
         with console.capture() as capture:
-            console.print("[on red]WARNING:[/] Directory does not exist or not found. \nPlease Try again.")
+            console.print("[on red black]WARNING:[/] Directory does not exist or not found. \nPlease Try again.")
         return capture.get()
 
 
@@ -64,7 +64,7 @@ class render():
             str: Error message
         """
         with console.capture() as capture:
-            console.print("[on red]WARNING:[/] Directory does not exist or not found.")
+            console.print("[on red black]WARNING:[/] Directory does not exist or not found.")
         return capture.get()
     
 
@@ -107,9 +107,9 @@ class CustomException(Exception):
     
     
     def abortWhileConvert(self):
-        console.print("\n\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.\n")
+        console.print("\n\n[on red black]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.\n")
 
         
     def EOFErrorHandler(self):
-        console.print("\n[on red][blink2]OOPS[/][/]. The given input was not valid. Please try again.")
+        console.print("\n[on red black][blink2]OOPS[/][/]. The given input was not valid. Please try again.")
         

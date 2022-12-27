@@ -119,7 +119,7 @@ class model():
                 self.savingDir = savingUserDir
             
             elif choice == "n": 
-                return
+                return False
 
             else: 
                 print("Invalid Command")
@@ -156,7 +156,7 @@ class model():
             # if directory doesn't exist, create new directory
             if self.validate_dir(newSavingDir) == False: 
                 print(DirNotFoundMsg)
-                self.createDir(newSavingDir)
+                if self.createDir(newSavingDir) == False: continue
                 
                 
             # if user input is same from the directory of the converting folder, return to file placement choice
