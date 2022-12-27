@@ -30,7 +30,7 @@ class Controller():
     def controlModelDir(self):
         while True:
             try:            
-                modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.error_DirMsg())
+                modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.DirNotFoundWarning())
                 modelControl.updateDir()
                 
                 if modelControl.files_selected > 0: 
@@ -57,9 +57,9 @@ class Controller():
         """
         while True:
             try:
-                choice = confirm.ask("\nSave files in another directory? [y]\nSave files in current Directory [n]")
+                choice = self.renderer.filePlacementChoiceDisplay()
                 if choice: # choice = "y"
-                    modelControl.customSavingDir(self.renderer.insert_SavingDirMsg())
+                    modelControl.customSavingDir(self.renderer.insert_SavingDirMsg(), self.renderer.DirNotFoundWarning())
                 else: # choice = "n"
                     modelControl.currentSavingDir()
                 

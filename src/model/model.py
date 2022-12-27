@@ -93,7 +93,8 @@ class model():
         
         Args:
         ==========
-            saving_dir (str/filePath): Saving folder location
+            progress: progress constructor from view.py
+            console: customized console constructor from view.py
         
         """
         
@@ -105,7 +106,7 @@ class model():
                 img.save(f"{self.savingDir}/{file}{_targetFileType}")
                 progress.update(task_1, advance=1) # advance progress after 1 file is converted
                 self.files_converted+=1
-                print(file)
+                print(f"{self.selectedFiles.index(file)+1}. {file}")
   
   
   
@@ -137,7 +138,7 @@ class model():
         self.savingDir = self.targetDir
 
 
-    def customSavingDir(self, textMsg):
+    def customSavingDir(self, textMsg, DirNotFoundMsg):
         """
         Summary:
         ==========
@@ -145,7 +146,8 @@ class model():
         
         Args:
         ==========
-            textMsg (str): Placeholder text for Input class. Gets from Controller 
+            textMsg (str): Placeholder text for Input class. Gets from Controller
+            DirNotFoundMsg(str): Placeholder text for the warning message that directory inserted was not found on machine
         
         """
         while True:
@@ -153,7 +155,7 @@ class model():
             
             # if directory doesn't exist, create new directory
             if self.validate_dir(newSavingDir) == False: 
-                print("Error, this directory doesn't exist")
+                print(DirNotFoundMsg)
                 self.createDir(newSavingDir)
                 
                 

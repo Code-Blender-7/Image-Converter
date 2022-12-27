@@ -1,7 +1,7 @@
 from rich.console import Console
 from rich.progress import Progress
 from rich.prompt import Confirm
-from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn
+from rich.progress import Progress, SpinnerColumn, TimeElapsedColumn, TransferSpeedColumn
 
 import pyfiglet
 
@@ -37,26 +37,14 @@ class render():
 
     def insert_SavingDirMsg(self):
         return ("Insert 'new' folder location to save converted files : ")
- 
     
-    def error_DirMsg(self):
-        """
-        returns a captured rich error message. See Page 17 of the rich doc
-
-        Returns:
-            str: Error message
-        """
-        with console.capture() as capture:
-            console.print(f"[red]WARN:[/] Directory invalid or False Input.\nPlease Try again.")
-        return capture.get()
-
 
     def error_DirNotExist(self):
         """
         if directory doesn't exist
         """
         with console.capture() as capture:
-            console.print("[red]WARN:[/] Directory does not exist or not found. \nPlease Try again.")
+            console.print("[on red]WARNING:[/] Directory does not exist or not found. \nPlease Try again.")
         return capture.get()
 
 
@@ -65,7 +53,19 @@ class render():
     
     
     def convertCompleteResults(self):
-        console.print(f"Total Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}\n")
+        console.print(f"\nTotal Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}")
+    
+    
+    def DirNotFoundWarning(self):
+        """
+        returns a captured rich error message. See Page 17 of the rich doc
+
+        Returns:
+            str: Error message
+        """
+        with console.capture() as capture:
+            console.print("[on red]WARNING:[/] Directory does not exist or not found.")
+        return capture.get()
     
 
     def text_art(self):
@@ -77,6 +77,12 @@ class render():
 
         console.print("Made by [blue][link=https://www.twitter.com/Black_2_white]@Black_2_white[/link][/]!")
         
+
+    def filePlacementChoiceDisplay(self):
+        console.rule("CONVERTING MODE")
+        choice = confirm.ask("\nSave files in another directory? (y)\nSave files in current Directory (n)")
+        return choice
+    
 
 class CustomException(Exception):
     
@@ -101,7 +107,7 @@ class CustomException(Exception):
     
     
     def abortWhileConvert(self):
-        console.print("\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.\n")
+        console.print("\n\n[on red]WARNING[/]. Program force-exit over converting process. Chances of corrupt-files is possible.\n")
 
         
     def EOFErrorHandler(self):
