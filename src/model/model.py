@@ -3,8 +3,7 @@ import sys
 import PIL
 
 from PIL import Image
-from helper import _targetFileType, _selectFileType
-
+from model.helper import _selectFileType, _targetFileType
 
 class model():
     
@@ -103,11 +102,11 @@ class model():
 
             for file in self.selectedFiles:
                 img = Image.open(f"{self.targetDir}/{file}")
-                img.save(f"{self.savingDir}/{file}{_targetFileType}")
+                newImageName = file[:-4]
+                img.save(f"{self.savingDir}/{file[:-4]}{_targetFileType}")
                 progress.update(task_1, advance=1) # advance progress after 1 file is converted
                 self.files_converted+=1
                 print(f"{self.selectedFiles.index(file)+1}. {file}")
-  
   
   
     def createDir(self, savingUserDir):
