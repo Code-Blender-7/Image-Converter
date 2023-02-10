@@ -12,6 +12,7 @@ from view.view import render, CustomException
 from view.view import console, confirm, progress
 
 import parseSupport
+from markup import readme
 
 modelControl = model()
 
@@ -109,7 +110,7 @@ class Controller():
 if __name__ == "__main__":
 
     if parseSupport.args.readme:
-        print("Not developed yet")
+        readme()
     elif parseSupport.args.start:
         Controller().runtime()
     else: parseSupport.parser.print_help() # display help if none of the quota matches

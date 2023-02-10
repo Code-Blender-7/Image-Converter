@@ -1,6 +1,6 @@
 import argparse
 
-from markup import markup
+
 import os
 import sys
 
