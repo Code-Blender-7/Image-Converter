@@ -11,7 +11,7 @@ from model.model import model
 from view.view import render, CustomException
 from view.view import console, confirm, progress
 
-from parseSupport import prog_description
+import parseSupport
 
 modelControl = model()
 
@@ -19,7 +19,6 @@ modelControl = model()
 class Controller():
     def __init__(self):
         self.renderer = render(modelControl)
-        self.runtime()
 
     def render_savingfiles(self, savingDir):
         modelControl.saving_images(savingDir)
@@ -41,6 +40,7 @@ class Controller():
             except EOFError:
                 CustomException(EOFError)
                 continue
+            
     def controlModelSavingImg(self):
         """
         Summary:
@@ -106,8 +106,11 @@ class Controller():
                 CustomException(KeyboardInterrupt, 101)
             break
 
-    
-def init():
-    prog_description()
-    Controller()
-        
+if __name__ == "__main__":
+
+    if parseSupport.args.readme:
+        print("Not developed yet")
+    elif parseSupport.args.start:
+        Controller().runtime()
+    else: parseSupport.parser.print_help() # display help if none of the quota matches
+

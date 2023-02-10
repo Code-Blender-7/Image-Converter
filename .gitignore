@@ -1,3 +1,2 @@
 .vscode
 src/controller/markup.py
-src/controller/parseSupport.py
