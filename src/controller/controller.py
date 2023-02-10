@@ -7,7 +7,6 @@ current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
 
-
 from model.model import model
 from view.view import render, CustomException
 from view.view import console, confirm, progress
@@ -22,10 +21,8 @@ class Controller():
         self.renderer = render(modelControl)
         self.runtime()
 
-
     def render_savingfiles(self, savingDir):
         modelControl.saving_images(savingDir)
-    
 
     def controlModelDir(self):
         while True:
@@ -44,8 +41,6 @@ class Controller():
             except EOFError:
                 CustomException(EOFError)
                 continue
-    
-    
     def controlModelSavingImg(self):
         """
         Summary:
@@ -61,15 +56,12 @@ class Controller():
                 if choice: # choice = "y"
                     modelControl.customSavingDir(self.renderer.insert_SavingDirMsg(), self.renderer.DirNotFoundWarning())
                 else: # choice = "n"
-                    modelControl.currentSavingDir()
-                
+                    modelControl.currentSavingDir()         
             except EOFError: 
                 CustomException(EOFError)
-                continue
-            
+                continue      
             break
-            
-        
+
     # work on this # 
     def display_ConvertProcess(self):
         """
@@ -86,8 +78,7 @@ class Controller():
         try:
             with console.screen():
                 modelControl.saving_images(progress)
-                
-   
+
         except KeyboardInterrupt: 
             CustomException(KeyboardInterrupt, 105)
 
@@ -108,14 +99,11 @@ class Controller():
                     
                     if modelControl.files_selected > 0:
                         if self.controlModelSavingImg() == False: continue
-                        self.display_ConvertProcess()
-                
+                        self.display_ConvertProcess()    
                 self.renderer.convertCompleteResults()
-                        
                 
             except KeyboardInterrupt:
                 CustomException(KeyboardInterrupt, 101)
-                
             break
 
     
@@ -123,7 +111,3 @@ def init():
     prog_description()
     Controller()
         
-if __name__ == "__main__":
-    init()
-    
-    

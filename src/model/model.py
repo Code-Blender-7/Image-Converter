@@ -102,8 +102,7 @@ class model():
 
             for file in self.selectedFiles:
                 img = Image.open(f"{self.targetDir}/{file}")
-                newImageName = file[:-4]
-                img.save(f"{self.savingDir}/{file[:-4]}{_targetFileType}")
+                img.save(f"{self.savingDir}/{file[:-4]}{_targetFileType}") # [:-4] means the last 4 letters of a string
                 progress.update(task_1, advance=1) # advance progress after 1 file is converted
                 self.files_converted+=1
                 print(f"{self.selectedFiles.index(file)+1}. {file}")
