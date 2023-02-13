@@ -27,7 +27,7 @@ class Controller():
     def controlModelDir(self):
         while True:
             try:            
-                modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.DirNotFoundWarning())
+                modelControl.getTargetDir(self.renderer.enter_TargetDirMsg(), self.renderer.errorMessage())
                 modelControl.updateDir()
                 
                 if modelControl.files_selected > 0: 
@@ -42,6 +42,7 @@ class Controller():
                 CustomException(EOFError)
                 continue
             
+            
     def controlModelSavingImg(self):
         """
         Summary:
@@ -55,7 +56,7 @@ class Controller():
             try:
                 choice = self.renderer.filePlacementChoiceDisplay()
                 if choice: # choice = "y"
-                    modelControl.customSavingDir(self.renderer.insert_SavingDirMsg(), self.renderer.DirNotFoundWarning())
+                    modelControl.customSavingDir(self.renderer.insert_SavingDirMsg(), self.renderer.errorMessage())
                 else: # choice = "n"
                     modelControl.currentSavingDir()         
             except EOFError: 

@@ -56,7 +56,7 @@ class render():
         console.print(f"\nTotal Converted: [green]{self.classData.files_converted}\nConverted files saved directory[/]: [blink2][i]{self.classData.savingDir}")
     
     
-    def DirNotFoundWarning(self):
+    def errorMessage(self, msg="Directory is invalid. Please try again."):
         """
         returns a captured rich error message. See Page 17 of the rich doc
 
@@ -64,7 +64,7 @@ class render():
             str: Error message
         """
         with console.capture() as capture:
-            console.print("[on red black]WARNING:[/] Directory does not exist or not found.")
+            console.print(f"[on red black]WARNING:[/] {msg}")
         return capture.get()
     
 

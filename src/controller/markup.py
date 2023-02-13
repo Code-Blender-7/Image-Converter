@@ -26,6 +26,8 @@ Image Converter is a Python Command Line Interface (CLI) utility tool used to co
     text_CAUTION = f"""
 There are a lot of work left here to be done to make this project completed.
 If you were to find any bugs, please open up an issue.
+
+It is recommended to run over modern terminals. Terminals like CMD are outdated and will not enable the full potential of this program.
 Also please don't change the size of your terminal because this is not responsive. 
     """
 

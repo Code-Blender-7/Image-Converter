@@ -1,6 +1,7 @@
 import os
 import sys
 import PIL
+import re
 
 from PIL import Image
 from model.helper import _selectFileType, _targetFileType
@@ -45,8 +46,9 @@ class model():
         
         """
         if os.path.isdir(directory): return True
-        elif not os.path.isdir(directory): return False
-
+        elif not os.path.isdir(directory) or re.compile('(?<=^...)[*:<>?|/"]').search(directory): return False
+        
+    
 
     def getTargetDir(self, textMsg, errorMsg):
         """
@@ -64,7 +66,7 @@ class model():
                 self.targetDir = directoryChoice
                 break
             else: 
-                print(errorMsg)
+                print(errorMsg('Testing'))
                 continue
 
 
@@ -108,6 +110,7 @@ class model():
                 print(f"{self.selectedFiles.index(file)+1}. {file}")
   
   
+  
     def createDir(self, savingUserDir):
         while True:
             choice = input(f"Do you wish to create this directory?\nCreate Directory: {savingUserDir} \n[y/n]: ")
@@ -122,8 +125,7 @@ class model():
             else: 
                 print("Invalid Command")
                 continue
-            
-            break            
+            break
 
 
     def currentSavingDir(self):
@@ -155,7 +157,6 @@ class model():
             if self.validate_dir(newSavingDir) == False: 
                 print(DirNotFoundMsg)
                 if self.createDir(newSavingDir) == False: continue
-                
                 
             # if user input is same from the directory of the converting folder, return to file placement choice
             elif self.targetDir == newSavingDir:
